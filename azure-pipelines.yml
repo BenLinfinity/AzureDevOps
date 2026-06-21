@@ -56,8 +56,11 @@ steps:
     LATEST_TAG=$(git describe --tags --abbrev=0)
     echo "The newly released version is: $LATEST_TAG"
     
+    CLEAN_VERSION=$(echo "$LATEST_TAG" | sed 's/^v//')
+    echo "Clean SemVer for Azure Artifacts: $CLEAN_VERSION"
+
     # Optional: Expose it as an Azure DevOps variable for subsequent tasks
-    echo "##vso[task.setvariable variable=NewVersion]$LATEST_TAG"
+    echo "##vso[task.setvariable variable=NewVersion]$CLEAN_VERSION"
   displayName: 'Print and Capture Version'
 
 - task: UniversalPackages@0
