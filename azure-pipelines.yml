@@ -70,7 +70,7 @@ steps:
     publishDirectory: '$(Build.ArtifactStagingDirectory)'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: 'Azure-Pipeline/HelloApp'
-    vstsFeedPackagePublish: 'hello-app-universal'
+    vstsFeedPackagePublish: 'hello-app-zip'
     versionOption: 'custom'
     versionPublish: '$(NewVersion)'
 
