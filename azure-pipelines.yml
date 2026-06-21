@@ -85,19 +85,24 @@ stages:
           displayName: 'Pack NuGet Package'
           inputs:
             command: 'pack'
-            arguments: '--configuration Release -p:Version=$(NewVersion) -p:PackageId=$(Build.SourceBranchName)_$(New_Version)'
+            arguments: '--configuration Release -p:Version=$(NewVersion) -p:PackageId=$(Build.SourceBranchName)_$(NewVersion)'
             packagesToPack: '**/*.csproj'
             configuration: '$(buildConfiguration)'
             packDirectory: '$(Build.ArtifactStagingDirectory)'
             outputDir: '$(Build.ArtifactStagingDirectory)'
         - script: |
-            echo "Package: $(Build.SourceBranchName)_$(New_Version)"
+            echo "Package: $(Build.SourceBranchName)_$(NewVersion)"
           displayName: "Print Package Name"
+        - task: NuGetCommand@2
+          displayName: 'Push to Azure Artifacts'
+          inputs:
+            command: 'push'
+            packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+            nuGetFeedType: 'internal'
+            publishVstsFeed: 'Azure-Pipeline/hello-app-nuget'        
+                  
           
           
-          
-          
-
 
 
 
