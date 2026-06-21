@@ -61,7 +61,7 @@ stages:
       - job: AltPipeline
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
         steps:
-          - task: SonarCloudPrepare@3  # Use SonarQubeCloudPrepare@3 if using the cloud SaaS
+          - task: SonarCloudPrepare@4
             displayName: 'Prepare SonarQube Analysis'
             inputs:
               SonarCloud: 'SonarQubeConnection'
@@ -69,6 +69,12 @@ stages:
               scannerMode: 'dotnet'
               projectKey: 'BenLinfinity_AzureDevOps'
               projectName: 'AzureDevOps'
+          - task: SonarCloudAnalyze@4
+            displayName: 'Run SonarQube Code Analysis'
+          - task: SonarCloudPublish@4
+            displayName: 'Publish Quality Gate Result'
+            inputs:
+              pollingTimeoutSec: '300'
           
 
 
