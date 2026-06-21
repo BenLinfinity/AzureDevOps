@@ -56,7 +56,10 @@ stages:
         - task: DotNetCoreCLI@2
           inputs:
             command: 'build'
-            arguments: '--configuration $(buildConfiguration) -p:Version=$(NewVersion) -p:AssemblyVersion=$(NewVersion)'
+            arguments: > 
+              --configuration $(buildConfiguration)
+              -p:Version=$(NewVersion) -p:AssemblyVersion=$(NewVersion)
+              -p:PackageId=$(Build.SourceBranchName)_$(NewVersion)
           displayName: 'dotnet build $(buildConfiguration)'
 
         - task: UniversalPackages@0
@@ -99,6 +102,7 @@ stages:
             command: 'push'
             searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
             feedPublish: 'hello-app-nuget'
+            vstsFeedPackagePublish: 'hello-app-zip'
 
           
 
