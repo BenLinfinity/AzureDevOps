@@ -11,7 +11,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  isMainBranch: eq(variables['Build.SourceBranch'], 'refs/heads/main')
 
 stages:
   - stage: Build
@@ -60,7 +59,7 @@ stages:
             versionOption: 'custom'
             versionPublish: '$(NewVersion)'
       - job: AltPipeline
-        condition: eq(variables['isMainBranch'], 'true')
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
         steps:
           - task: SonarCloudPrepare@3  # Use SonarQubeCloudPrepare@3 if using the cloud SaaS
             displayName: 'Prepare SonarQube Analysis'
