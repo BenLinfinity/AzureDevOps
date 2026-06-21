@@ -93,12 +93,11 @@ stages:
         - script: |
             echo "Package: $(Build.SourceBranchName)_$(NewVersion)"
           displayName: "Print Package Name"
-        - task: NuGetCommand@2
+        - task: DotNetCLI@2
           displayName: 'Push to Azure Artifacts'
           inputs:
             command: 'push'
-            packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
-            nuGetFeedType: 'internal'
+            searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
             publishVstsFeed: 'Azure-Pipeline/hello-app-nuget'        
                   
           
