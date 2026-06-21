@@ -11,6 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  packageVersion: '1.0.0'
 
 steps:
 - task: UseDotNet@2
