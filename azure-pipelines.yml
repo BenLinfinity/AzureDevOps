@@ -34,12 +34,6 @@ stages:
           inputs:
             packageType: 'sdk'
             version: '10.x'
-          
-        - task: DotNetCoreCLI@2
-          inputs:
-            command: 'build'
-            arguments: '--configuration Release'
-          displayName: 'dotnet build Release'
 
         - script: |
             npx semantic-release
@@ -59,6 +53,12 @@ stages:
             echo "##vso[task.setvariable variable=NewVersion]$CLEAN_VERSION"
           displayName: 'Print and Capture Version'
 
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: 'build'
+            arguments: '--configuration $(buildConfiguration) -p:Version=$(NewVersion) -p:AssemblyVersion=$(NewVersion)'
+          displayName: 'dotnet build $(buildConfiguration)'
+
         - task: UniversalPackages@0
           displayName: 'Publish to Azure Artifacts Feed'
           inputs:
@@ -73,12 +73,26 @@ stages:
         - task: SonarCloudAnalyze@4
           condition: variables['isMainBranch']
           displayName: 'Run SonarQube Code Analysis'
-          
+
         - task: SonarCloudPublish@4
           condition: variables['isMainBranch']
           displayName: 'Publish Quality Gate Result'
           inputs:
             pollingTimeoutSec: '300'
+
+        - task: DotNetCoreCLI@2
+          condition: variables['isMainBranch']
+          displayName: 'Pack NuGet Package'
+          inputs:
+            command: 'pack'
+            arguments: '--configuration Release -p:Version=$(NewVersion) -p:PackageId=$(Build.SourceBranchName)_$(New_Version)'
+            packagesToPack: '**/*.csproj'
+            configuration: '$(buildConfiguration)'
+            packDirectory: '$(Build.ArtifactStagingDirectory)'
+            outputDir: '$(Build.ArtifactStagingDirectory)'
+        - script: |
+            echo "Package: $(Build.SourceBranchName)_$(New_Version)"
+          displayName: "Print Package Name"
           
           
           
