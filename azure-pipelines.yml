@@ -57,6 +57,7 @@ steps:
   name: version_step # step id used as a reference for output values
   displayName: Determine Version
 
-- script: echo "SemVer version: $(version_step.FullSemVer)"
+- script: |
+    echo "SemVer version: $(version_step.FullSemVer)"
   displayName: 'Display SemVer version'
 
