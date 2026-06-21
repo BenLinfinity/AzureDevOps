@@ -1,0 +1,8 @@
+mode: ContinuousDeployment
+next-version: 1.0.0
+
+# Only override the commit parsing rules
+major-version-bump-message: "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\(.+\\))?!:"
+minor-version-bump-message: "^feat(\\(.+\\))?:"
+patch-version-bump-message: "^(fix|perf)(\\(.+\\))?:"
+no-bump-message: "^(docs|style|refactor|test|build|ci|chore|revert)(\\(.+\\))?:"

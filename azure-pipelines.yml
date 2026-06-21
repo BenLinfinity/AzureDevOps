@@ -44,7 +44,19 @@ steps:
     publishDirectory: '$(Build.ArtifactStagingDirectory)'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: 'Azure-Pipeline/HelloApp'
-    vstsFeedPackagePublish: 'helloa-pp-universal'
+    vstsFeedPackagePublish: 'hello-app-universal'
     versionOption: 'custom'
     versionPublish: '$(packageVersion)'
+
+- task: gitversion-setup@4.5.0
+  displayName: Install GitVersion
+  inputs:
+    versionSpec: '6.0.0'
+
+- task: gitversion-execute@4.5.0
+  name: version_step # step id used as a reference for output values
+  displayName: Determine Version
+
+- script: echo "SemVer version: $(version_step.FullSemVer)"
+  displayName: 'Display SemVer version'
 
