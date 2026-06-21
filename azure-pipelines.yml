@@ -88,11 +88,11 @@ stages:
           displayName: 'Pack NuGet Package'
           inputs:
             command: 'pack'
-            arguments: '--configuration Release -p:Version=$(NewVersion) -p:PackageId=$(Build.SourceBranchName)_$(NewVersion)'
             packagesToPack: '**/*.csproj'
             configuration: '$(buildConfiguration)'
             packDirectory: '$(Build.ArtifactStagingDirectory)'
             outputDir: '$(Build.ArtifactStagingDirectory)'
+            buildProperties: 'Version=$(NewVersion);PackageVersion=$(NewVersion);PackageId=$(Build.SourceBranchName)_$(NewVersion)'
         - script: |
             echo "Package: $(Build.SourceBranchName)_$(NewVersion)"
           displayName: "Print Package Name"
@@ -102,7 +102,6 @@ stages:
             command: 'push'
             searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
             feedPublish: 'hello-app-nuget'
-            vstsFeedPackagePublish: 'hello-app-zip'
 
           
 
