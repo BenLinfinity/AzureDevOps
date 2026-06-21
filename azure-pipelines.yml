@@ -44,7 +44,7 @@ steps:
     publishDirectory: '$(Build.ArtifactStagingDirectory)'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: 'Azure-Pipeline/HelloApp'
-    vstsFeedPackagePublish: 'HelloApp-Universal'
+    vstsFeedPackagePublish: 'helloa-pp-universal'
     versionOption: 'custom'
     versionPublish: '$(packageVersion)'
 
