@@ -93,7 +93,7 @@ stages:
         - script: |
             echo "Package: $(Build.SourceBranchName)_$(NewVersion)"
           displayName: "Print Package Name"
-        - task: DotNetCLI@2
+        - task: DotNetCoreCLI@2
           displayName: 'Push to Azure Artifacts'
           inputs:
             command: 'push'
