@@ -19,6 +19,16 @@ stages:
     jobs:
       - job: Pipeline
         steps:
+        - task: SonarCloudPrepare@4
+          condition: variables['isMainBranch']
+          displayName: 'Prepare SonarQube Analysis'
+          inputs:
+            SonarCloud: 'SonarQubeConnection'
+            organization: 'benlinfinity'
+            scannerMode: 'dotnet'
+            projectKey: 'BenLinfinity_AzureDevOps'
+            projectName: 'AzureDevOps'
+
         - task: UseDotNet@2
           displayName: 'Install .NET Core SDK'
           inputs:
@@ -59,18 +69,11 @@ stages:
             vstsFeedPackagePublish: 'hello-app-zip'
             versionOption: 'custom'
             versionPublish: '$(NewVersion)'
-        - task: SonarCloudPrepare@4
-          condition: variables['isMainBranch']
-          displayName: 'Prepare SonarQube Analysis'
-          inputs:
-            SonarCloud: 'SonarQubeConnection'
-            organization: 'benlinfinity'
-            scannerMode: 'dotnet'
-            projectKey: 'BenLinfinity_AzureDevOps'
-            projectName: 'AzureDevOps'
+
         - task: SonarCloudAnalyze@4
           condition: variables['isMainBranch']
           displayName: 'Run SonarQube Code Analysis'
+          
         - task: SonarCloudPublish@4
           condition: variables['isMainBranch']
           displayName: 'Publish Quality Gate Result'
