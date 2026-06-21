@@ -11,6 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  isMainBranch: eq(variables['Build.SourceBranch'], 'refs/heads/main')
 
 stages:
   - stage: Build
@@ -58,23 +59,26 @@ stages:
             vstsFeedPackagePublish: 'hello-app-zip'
             versionOption: 'custom'
             versionPublish: '$(NewVersion)'
-      - job: AltPipeline
-        condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
-        steps:
-          - task: SonarCloudPrepare@4
-            displayName: 'Prepare SonarQube Analysis'
-            inputs:
-              SonarCloud: 'SonarQubeConnection'
-              organization: 'benlinfinity'
-              scannerMode: 'dotnet'
-              projectKey: 'BenLinfinity_AzureDevOps'
-              projectName: 'AzureDevOps'
-          - task: SonarCloudAnalyze@4
-            displayName: 'Run SonarQube Code Analysis'
-          - task: SonarCloudPublish@4
-            displayName: 'Publish Quality Gate Result'
-            inputs:
-              pollingTimeoutSec: '300'
+        - task: SonarCloudPrepare@4
+          condition: variables['isMainBranch']
+          displayName: 'Prepare SonarQube Analysis'
+          inputs:
+            SonarCloud: 'SonarQubeConnection'
+            organization: 'benlinfinity'
+            scannerMode: 'dotnet'
+            projectKey: 'BenLinfinity_AzureDevOps'
+            projectName: 'AzureDevOps'
+        - task: SonarCloudAnalyze@4
+          condition: variables['isMainBranch']
+          displayName: 'Run SonarQube Code Analysis'
+        - task: SonarCloudPublish@4
+          condition: variables['isMainBranch']
+          displayName: 'Publish Quality Gate Result'
+          inputs:
+            pollingTimeoutSec: '300'
+          
+          
+          
           
 
 
