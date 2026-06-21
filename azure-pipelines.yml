@@ -98,7 +98,7 @@ stages:
           inputs:
             command: 'push'
             searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-            publishVstsFeed: 'Azure-Pipeline/hello-app-nuget'        
+            feedPublish: 'Azure-Pipeline/hello-app-nuget'        
                   
           
           
