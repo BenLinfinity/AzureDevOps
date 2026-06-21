@@ -66,7 +66,7 @@ stages:
             inputs:
               SonarCloud: 'SonarQubeConnection'
               organization: 'benlinfinity'
-              scannerMode: 'MSBuild'
+              scannerMode: 'dotnet'
               projectKey: 'BenLinfinity_AzureDevOps'
               projectName: 'AzureDevOps'
           
