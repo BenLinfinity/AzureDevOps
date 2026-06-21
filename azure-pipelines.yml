@@ -51,7 +51,7 @@ steps:
 - task: gitversion-setup@4.5.0
   displayName: Install GitVersion
   inputs:
-    versionSpec: '6.0.0'
+    versionSpec: '7.0.x'
 
 - task: gitversion-execute@4.5.0
   name: version_step # step id used as a reference for output values
