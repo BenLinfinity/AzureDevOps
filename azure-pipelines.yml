@@ -59,7 +59,7 @@ stages:
             vstsFeedPackagePublish: 'hello-app-zip'
             versionOption: 'custom'
             versionPublish: '$(NewVersion)'
-      - job: Alt-Pipeline
+      - job: AltPipeline
         condition: eq(variables['isMainBranch'], 'true')
         steps:
           - task: SonarCloudPrepare@3  # Use SonarQubeCloudPrepare@3 if using the cloud SaaS
